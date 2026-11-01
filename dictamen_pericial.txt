@@ -1,0 +1,8 @@
+=== DICTAMEN TÉCNICO FORENSE - INFORME DE INCIDENTE ===
+Analista a cargo: Chris
+Objetivo: Auditoría de registros de acceso y detección de intrusiones.
+
+ANOMALÍAS Y AMENAZAS DETECTADAS:
+-> WARNING: Intento de acceso fallido con contraseña incorrecta desde 203.0.113.42
+-> WARNING: Intento de acceso fallido con contraseña incorrecta desde 203.0.113.42
+-> ALERTA CRÍTICA: Múltiples fallos de autenticación (Fuerza Bruta) detectados desde 203.0.113.42 en puerto 22
