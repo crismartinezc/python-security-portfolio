@@ -1,16 +1,19 @@
-# 🛡️ Python Security & Forensic Automation Portfolio
+# Python Security & Forensic Automation Portfolio
 
-Repositorio oficial que documenta mi camino en el desarrollo backend, automatización de procesos y ciberseguridad (Blue/Red Teaming). Este conjunto de herramientas simula tareas reales de auditoría de redes, análisis de logs y generación de dictámenes periciales digitales.
+Production-ready backend toolkit and security automation portfolio demonstrating enterprise-grade software engineering practices, relational database persistence, and high-performance API design.
 
-## 🛠️ Estructura del Proyecto y Módulos
-- **Escaneo y Validación:** Scripts lógicos para control de accesos, puertos y validación de credenciales.
-- **Automatización de Archivos:** Lectura y escritura masiva de registros del sistema.
-- **Blue Team / Análisis Forense (`analizador_forense.py`):** Motor automatizado para la detección de anomalías, intentos de fuerza bruta y generación de informes técnicos en entorno legal/forense.
+## 🚀 Project Structure & Modules
 
-## 💻 Stack Tecnológico
-- **Lenguaje:** Python 3.x
-- **Entorno:** macOS Sequoia / VS Code
-- **Control de Versiones:** Git & GitHub
+- **`tools/`**: Core backend application, including the high-performance **FastAPI** server (`api_servidor.py`) and Blue Team automated forensic analyzers.
+- **`lessons/`**: Advanced Python concepts, Object-Oriented Programming (OOP) implementations, exception handling, and network auditing scripts.
+- **`database/`**: Relational data storage (`seguridad.db`) managing secure persistence for system logs and access audits.
+
+## 🛠️ Tech Stack & Standards
+
+- **Backend & API:** Python 3.x, FastAPI, Uvicorn (Swagger UI / OpenAPI automated documentation).
+- **Database:** SQLite3 with relational tables and structured SQL queries.
+- **Engineering Standards:** Clean Architecture, Conventional Commits, and international English-language naming conventions.
+- **Environment:** macOS, VS Code, Git & GitHub.
 
 ---
-*Desarrollado por **Chris** - Aspirante a Especialista en Ciberseguridad y Peritaje Informático.*
+*Developed by Chris — Aspiring Senior Backend & Cybersecurity Engineer.*

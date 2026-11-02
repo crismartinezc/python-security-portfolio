@@ -1,16 +1,22 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel
 import sqlite3
 import os
+from datetime import datetime
 
 app = FastAPI(
     title="Python Security & Forensic API",
-    version="2.0.0",
-    description="API backend conectada a base de datos relacional para auditoría de ciberseguridad."
+    version="2.1.0",
+    description="API backend de alto rendimiento para auditoría y monitoreo de ciberseguridad con persistencia relacional."
 )
+
+# Modelo Pydantic para validar los datos que entran por POST de forma estricta
+class SecurityEvent(BaseModel):
+    evento: str
+    nivel_riesgo: str
 
 # Función auxiliar para conectar a la base de datos de forma segura
 def obtener_conexion():
-    # Aseguramos la ruta correcta hacia la carpeta database
     ruta_db = os.path.join(os.path.dirname(__file__), "../database/seguridad.db")
     conexion = sqlite3.connect(ruta_db)
     return conexion
@@ -18,24 +24,21 @@ def obtener_conexion():
 @app.get("/")
 def leer_raiz():
     return {
-        "estado": "ONLINE",
-        "sistema": "Backend de Ciberseguridad y Auditoría",
-        "autor": "Chris"
+        "status": "ONLINE",
+        "system": "Cybersecurity & Forensic Backend",
+        "author": "Chris"
     }
 
-# Endpoint que consulta los registros reales de SQLite
+# Endpoint GET: Consulta los registros almacenados en SQLite
 @app.get("/auditoria/logs")
 def consultar_logs_seguridad():
     try:
         conexion = obtener_conexion()
         cursor = conexion.cursor()
-        
-        # Consultamos la tabla de auditoría que creamos previamente
         cursor.execute("SELECT id, timestamp, evento, nivel_riesgo FROM auditoria_accesos")
         filas = cursor.fetchall()
         conexion.close()
         
-        # Transformamos los resultados a una estructura JSON limpia para la web
         lista_logs = []
         for fila in filas:
             lista_logs.append({
@@ -46,9 +49,36 @@ def consultar_logs_seguridad():
             })
             
         return {
-            "total_registros": len(lista_logs),
-            "registros": lista_logs
+            "total_records": len(lista_logs),
+            "logs": lista_logs
         }
-        
     except Exception as error:
-        return {"error": f"No se pudo acceder a la base de datos: {str(error)}"}
+        return {"error": f"Database error: {str(error)}"}
+
+# Endpoint POST: Permite registrar un nuevo evento de seguridad en la base de datos
+@app.post("/auditoria/logs")
+def registrar_incidente(incidente: SecurityEvent):
+    try:
+        conexion = obtener_conexion()
+        cursor = conexion.cursor()
+        timestamp_actual = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        
+        cursor.execute("""
+            INSERT INTO auditoria_accesos (timestamp, evento, nivel_riesgo)
+            VALUES (?, ?, ?)
+        """, (timestamp_actual, incidente.evento, incidente.nivel_riesgo))
+        
+        conexion.commit()
+        conexion.close()
+        
+        return {
+            "status": "SUCCESS",
+            "message": "Incidente de seguridad registrado correctamente en la base de datos",
+            "data": {
+                "timestamp": timestamp_actual,
+                "evento": incidente.evento,
+                "nivel_riesgo": incidente.nivel_riesgo
+            }
+        }
+    except Exception as error:
+        raise HTTPException(status_code=500, detail=f"Error al registrar incidente: {str(error)}")
